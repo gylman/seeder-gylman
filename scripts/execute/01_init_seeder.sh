@@ -8,7 +8,9 @@ echo "DATA_PATH is set to: $DATA_PATH"
 # rm -rf $DATA_PATH  
 
 # ✅ Instead, remove only the contents
-rm -rf $DATA_PATH/*
+# rm -rf $DATA_PATH/*
+
+find "$DATA_PATH" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
 $BIN_PATH init --path $DATA_PATH
 
