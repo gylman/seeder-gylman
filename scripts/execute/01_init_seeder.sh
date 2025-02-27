@@ -11,7 +11,7 @@ echo "DATA_PATH is set to: $DATA_PATH"
 # rm -rf $DATA_PATH  
 
 # ✅ Instead, remove only the contents
-rm -rf $DATA_PATH/*
+find $DATA_PATH -mindepth 1 -delete
 
 echo "DATA_PATH after rm -rf is $DATA_PATH"
 echo "BIN_PATH after rm -rf is $BIN_PATH"
