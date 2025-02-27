@@ -1,5 +1,8 @@
 #!/bin/bash
 SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+echo "SCRIPT_PATH is $SCRIPT_PATH"
+
 source $SCRIPT_PATH/env.sh
 
 echo "DATA_PATH is set to: $DATA_PATH"
@@ -9,6 +12,9 @@ echo "DATA_PATH is set to: $DATA_PATH"
 
 # ✅ Instead, remove only the contents
 rm -rf $DATA_PATH/*
+
+echo "DATA_PATH after rm -rf is $DATA_PATH"
+echo "BIN_PATH after rm -rf is $BIN_PATH"
 
 $BIN_PATH init --path $DATA_PATH
 
