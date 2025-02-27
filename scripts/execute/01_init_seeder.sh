@@ -2,7 +2,13 @@
 SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 source $SCRIPT_PATH/env.sh
 
-rm -rf $DATA_PATH
+echo "DATA_PATH is set to: $DATA_PATH"
+
+# ❌ Do not remove the entire folder (Docker bind mount issue)
+# rm -rf $DATA_PATH  
+
+# ✅ Instead, remove only the contents
+rm -rf $DATA_PATH/*
 
 $BIN_PATH init --path $DATA_PATH
 
