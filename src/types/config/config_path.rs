@@ -44,9 +44,9 @@ impl Default for ConfigPath {
 impl ConfigPath {
     pub fn init(&self) -> Result<(), ConfigError> {
         // Remove the directory if it exists.
-        if self.as_ref().exists() {
-            fs::remove_dir_all(self).map_err(ConfigError::RemoveConfigDirectory)?;
-        }
+        // if self.as_ref().exists() {
+        //     fs::remove_dir_all(self).map_err(ConfigError::RemoveConfigDirectory)?;
+        // }
 
         // Create the directory
         fs::create_dir_all(self).map_err(ConfigError::CreateConfigDirectory)?;
