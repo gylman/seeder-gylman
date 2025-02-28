@@ -4,6 +4,8 @@ source $SCRIPT_PATH/env.sh
 
 echo "add_sequencing_info"
 
+echo "SEEDER_INTERNAL_RPC_URL is: $SEEDER_INTERNAL_RPC_URL"
+
 curl --location $SEEDER_INTERNAL_RPC_URL \
 --header 'Content-Type: application/json' \
 --data '{
