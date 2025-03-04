@@ -20,5 +20,6 @@ if [[ ! -f "$BIN_PATH" ]]; then
     exit 1
 fi
 
+SEEDER_PRIVATE_KEY="0x2141478fe814f58de31b5a6fb2a7682b7dae755cc19bab6acdbfa1fcfe6e64e1" # Please change this.
 SEEDER_EXTERNAL_RPC_URL="http://127.0.0.1:6000" # External IP - Please change this IP.
 SEEDER_INTERNAL_RPC_URL="http://127.0.0.1:6001" # Internal IP - Please change this IP.
