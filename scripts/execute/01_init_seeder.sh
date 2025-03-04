@@ -1,32 +1,28 @@
 #!/bin/bash
-SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+CURRENT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+PROJECT_ROOT_PATH="$( cd $SCRIPT_PATH/../.. >/dev/null 2>&1 ; pwd -P )"
 
-echo "SCRIPT_PATH is $SCRIPT_PATH"
+BIN_FILE_NAME="seeder"
+BIN_PATH="$PROJECT_ROOT_PATH/scripts/$BIN_FILE_NAME"
 
-source $SCRIPT_PATH/env.sh
+DATA_PATH=$PROJECT_ROOT_PATH/data
+CONFIG_FILE_PATH=$DATA_PATH/Config.toml
+PRIVATE_KEY_PATH=$DATA_PATH/signing_key
 
-echo "DATA_PATH is set to: $DATA_PATH"
+# Copy the new version's binary to the scripts directory
+if [[ -f "$PROJECT_ROOT_PATH/target/release/$BIN_FILE_NAME" ]]; then
+          cp $PROJECT_ROOT_PATH/target/release/$BIN_FILE_NAME $PROJECT_ROOT_PATH/scripts
+fi
 
-# ❌ Do not remove the entire folder (Docker bind mount issue)
-# rm -rf $DATA_PATH  
+# Check if the binary exists
+if [[ ! -f "$BIN_PATH" ]]; then
+            echo "Error: Secure RPC binary not found at $BIN_PATH"
+                echo "Please run this command 'cp $PROJECT_ROOT_PATH/target/release/$BIN_FILE_NAME $PROJECT_ROOT_PATH/scripts' after building the project"
+                    exit 1
+fi
 
-# ✅ Instead, remove only the contents
-# find $DATA_PATH -mindepth 1 -delete
+# Seeder private key
+SEEDER_PRIVATE_KEY="0x2141478fe814f58de31b5a6fb2a7682b7dae755cc19bab6acdbfa1fcfe6e64e1" # Please change this.
 
-echo "DATA_PATH after rm -rf is $DATA_PATH"
-echo "BIN_PATH after rm -rf is $BIN_PATH"
-
-$BIN_PATH init --path $DATA_PATH
-
-# Wait until CONFIG_FILE_PATH is available
-while [ ! -f "$CONFIG_FILE_PATH" ]; do
-  echo "Waiting for $CONFIG_FILE_PATH to be created..."
-  sleep 1
-done
-
-sed -i.temp "s|0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80|$SEEDER_PRIVATE_KEY|g" $PRIVATE_KEY_PATH
-
-sed -i.temp "s|seeder_external_rpc_url = \"http://127.0.0.1:6000\"|seeder_external_rpc_url = \"$SEEDER_EXTERNAL_RPC_URL\"|g" $CONFIG_FILE_PATH
-sed -i.temp "s|seeder_internal_rpc_url = \"http://127.0.0.1:6001\"|seeder_internal_rpc_url = \"$SEEDER_INTERNAL_RPC_URL\"|g" $CONFIG_FILE_PATH
-
-# rm $CONFIG_FILE_PATH.temp
+SEEDER_EXTERNAL_RPC_URL="http://127.0.0.1:6000" # External IP - Please change this IP.
+SEEDER_INTERNAL_RPC_URL="http://127.0.0.1:6001"  # Internal IP - Please change this IP.
